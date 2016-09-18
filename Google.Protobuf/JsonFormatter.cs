@@ -314,6 +314,7 @@ namespace Google.Protobuf
                         (!wasCap || (i + 1 < input.Length && char.IsLower(input[i + 1]))))
                     {
                         firstWord = false;
+                        result.Append(input[i]);
                     }
                     else
                     {
@@ -329,8 +330,16 @@ namespace Google.Protobuf
                         result.Append(char.ToUpperInvariant(input[i]));
                         continue;
                     }
+                    else
+                    {
+                        result.Append(input[i]);
+                        continue;
+                    }
                 }
-                result.Append(input[i]);
+                else
+                {
+                    result.Append(char.ToLowerInvariant(input[i]));
+                }
             }
             return result.ToString();
         }
