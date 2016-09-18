@@ -1,9 +1,9 @@
 # protobuf_for_unity
-google's protobuf 3.0 for unity3D
+google's protobuf 3.0.x for unity3D
 
 来源：
 [google's protobuf](https://github.com/google/protobuf/tree/master/csharp)<br>
-版本号：3.0.0<br><br>
+版本号：3.0.x<br><br>
 
 使用方法：<br>
 将目录 Google.Protobuf 下的所有文件拷到 Unity 工程中。<br>
