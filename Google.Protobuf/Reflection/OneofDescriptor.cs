@@ -32,7 +32,6 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Google.Protobuf.Compatibility;
 
 namespace Google.Protobuf.Reflection
 {

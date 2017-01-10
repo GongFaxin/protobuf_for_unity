@@ -30,7 +30,6 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Google.Protobuf.Compatibility;
 using System;
 
 namespace Google.Protobuf.Reflection

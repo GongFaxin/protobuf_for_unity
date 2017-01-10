@@ -28,7 +28,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
+#endregion 
 
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
@@ -581,7 +581,7 @@ namespace Google.Protobuf
                 case FieldType.Int32:
                 case FieldType.SInt32:
                 case FieldType.SFixed32:
-                    return  ParseNumericString<int>(keyText, int.Parse);
+                    return ParseNumericString<int>(keyText, int.Parse);
                 case FieldType.UInt32:
                 case FieldType.Fixed32:
                     return ParseNumericString<uint>(keyText, uint.Parse);

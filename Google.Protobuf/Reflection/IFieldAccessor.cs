@@ -30,8 +30,6 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using System;
-using System.Collections;
 
 namespace Google.Protobuf.Reflection
 {

@@ -32,7 +32,6 @@
 
 using System;
 using System.Reflection;
-using Google.Protobuf.Compatibility;
 
 namespace Google.Protobuf.Reflection
 {
@@ -58,7 +57,7 @@ namespace Google.Protobuf.Reflection
             setValueDelegate = ReflectionUtil.CreateActionIMessageObject(property.GetSetMethod());
 
             var clrType = property.PropertyType;
-            
+
             // TODO: Validate that this is a reasonable single field? (Should be a value type, a message type, or string/ByteString.)
             object defaultValue =
                 descriptor.FieldType == FieldType.Message ? null
