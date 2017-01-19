@@ -28,7 +28,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion 
+#endregion
 
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
@@ -975,7 +975,7 @@ namespace Google.Protobuf
             /// Default settings, as used by <see cref="JsonParser.Default"/>. This has the same default
             /// recursion limit as <see cref="CodedInputStream"/>, and an empty type registry.
             /// </summary>
-            public static readonly Settings Default;
+            public readonly static Settings Default;
 
             // Workaround for the Mono compiler complaining about XML comments not being on
             // valid language elements.

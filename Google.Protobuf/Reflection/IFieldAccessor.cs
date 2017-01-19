@@ -30,6 +30,8 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+// using System;
+// using System.Collections;
 
 namespace Google.Protobuf.Reflection
 {
@@ -51,8 +53,6 @@ namespace Google.Protobuf.Reflection
 
         /// <summary>
         /// Fetches the field value. For repeated values, this will be an
-        /// <see cref="IList"/> implementation. For map values, this will be an
-        /// <see cref="IDictionary"/> implementation.
         /// </summary>
         object GetValue(IMessage message);
 
@@ -63,7 +63,6 @@ namespace Google.Protobuf.Reflection
         /// Repeated fields are mutated by fetching the value and manipulating it as a list.
         /// Map fields are mutated by fetching the value and manipulating it as a dictionary.
         /// </remarks>
-        /// <exception cref="InvalidOperationException">The field is not a "simple" field.</exception>
         void SetValue(IMessage message, object value);
     }
 }

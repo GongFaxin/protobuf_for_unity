@@ -34,10 +34,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-//#if DOTNET35
+// #if DOTNET35
 // Needed for ReadOnlyDictionary, which does not exist in .NET 3.5
-using Google.Protobuf.Collections;
-//#endif
+// using Google.Protobuf.Collections;
+// #endif
 
 namespace Google.Protobuf.Reflection
 {
@@ -68,9 +68,7 @@ namespace Google.Protobuf.Reflection
             : base(file, file.ComputeFullName(parent, proto.Name), typeIndex)
         {
             Proto = proto;
-            //Parser = generatedCodeInfo?.Parser;
             Parser = generatedCodeInfo == null ? null : generatedCodeInfo.Parser;
-            //ClrType = generatedCodeInfo?.ClrType;
             ClrType = generatedCodeInfo == null ? null : generatedCodeInfo.ClrType;
             ContainingType = parent;
 
@@ -95,8 +93,7 @@ namespace Google.Protobuf.Reflection
             fieldsInDeclarationOrder = DescriptorUtil.ConvertAndMakeReadOnly(
                 proto.Field,
                 (field, index) =>
-                //new FieldDescriptor(field, file, this, index, generatedCodeInfo?.PropertyNames[index]));
-                new FieldDescriptor(field, file, this, index, generatedCodeInfo == null ? null :generatedCodeInfo.PropertyNames[index]));
+                new FieldDescriptor(field, file, this, index, generatedCodeInfo == null ? null : generatedCodeInfo.PropertyNames[index]));
             fieldsInNumberOrder = new ReadOnlyCollection<FieldDescriptor>(fieldsInDeclarationOrder.OrderBy(field => field.FieldNumber).ToArray());
             // TODO: Use field => field.Proto.JsonName when we're confident it's appropriate. (And then use it in the formatter, too.)
             jsonFieldMap = CreateJsonFieldMap(fieldsInNumberOrder);
@@ -104,7 +101,7 @@ namespace Google.Protobuf.Reflection
             Fields = new FieldCollection(this);
         }
 
-        private static ReadOnlyDictionary<string, FieldDescriptor> CreateJsonFieldMap(IList<FieldDescriptor> fields)
+        private static Dictionary<string, FieldDescriptor> CreateJsonFieldMap(IList<FieldDescriptor> fields)
         {
             var map = new Dictionary<string, FieldDescriptor>();
             foreach (var field in fields)
@@ -112,7 +109,7 @@ namespace Google.Protobuf.Reflection
                 map[field.Name] = field;
                 map[field.JsonName] = field;
             }
-            return new ReadOnlyDictionary<string, FieldDescriptor>(map);
+            return map;
         }
 
         /// <summary>
@@ -176,9 +173,7 @@ namespace Google.Protobuf.Reflection
         internal bool IsWellKnownType
         {
             get
-            {
-                return File.Package == "google.protobuf" && WellKnownTypeNames.Contains(File.Name);
-            }
+            { return File.Package == "google.protobuf" && WellKnownTypeNames.Contains(File.Name); }
         }
 
         /// <summary>
@@ -188,9 +183,7 @@ namespace Google.Protobuf.Reflection
         internal bool IsWrapperType
         {
             get
-            {
-                return File.Package == "google.protobuf" && File.Name == "google/protobuf/wrappers.proto";
-            }
+            { return File.Package == "google.protobuf" && File.Name == "google/protobuf/wrappers.proto"; }
         }
 
         /// <value>
@@ -223,20 +216,14 @@ namespace Google.Protobuf.Reflection
         /// </summary>
         /// <param name="name">The unqualified name of the field (e.g. "foo").</param>
         /// <returns>The field's descriptor, or null if not found.</returns>
-        public FieldDescriptor FindFieldByName(String name)
-        {
-            return File.DescriptorPool.FindSymbol<FieldDescriptor>(FullName + "." + name);
-        }
+        public FieldDescriptor FindFieldByName(String name) { return File.DescriptorPool.FindSymbol<FieldDescriptor>(FullName + "." + name); }
 
         /// <summary>
         /// Finds a field by field number.
         /// </summary>
         /// <param name="number">The field number within this message type.</param>
         /// <returns>The field's descriptor, or null if not found.</returns>
-        public FieldDescriptor FindFieldByNumber(int number)
-        {
-            return File.DescriptorPool.FindFieldByNumber(this, number);
-        }
+        public FieldDescriptor FindFieldByNumber(int number) { return File.DescriptorPool.FindFieldByNumber(this, number); }
 
         /// <summary>
         /// Finds a nested descriptor by name. The is valid for fields, nested
@@ -286,10 +273,7 @@ namespace Google.Protobuf.Reflection
             /// Returns the fields in the message as an immutable list, in the order in which they
             /// are declared in the source .proto file.
             /// </value>
-            public IList<FieldDescriptor> InDeclarationOrder()
-            {
-                return messageDescriptor.fieldsInDeclarationOrder;
-            }
+            public IList<FieldDescriptor> InDeclarationOrder() { return messageDescriptor.fieldsInDeclarationOrder; }
 
             /// <value>
             /// Returns the fields in the message as an immutable list, in ascending field number
@@ -297,10 +281,7 @@ namespace Google.Protobuf.Reflection
             /// index in the list to the field number; to retrieve a field by field number, it is better
             /// to use the <see cref="FieldCollection"/> indexer.
             /// </value>
-            public IList<FieldDescriptor> InFieldNumberOrder()
-            {
-                return messageDescriptor.fieldsInNumberOrder;
-            }
+            public IList<FieldDescriptor> InFieldNumberOrder() { return messageDescriptor.fieldsInNumberOrder; }
 
             // TODO: consider making this public in the future. (Being conservative for now...)
 
@@ -310,10 +291,7 @@ namespace Google.Protobuf.Reflection
             /// in the message would result two entries, one with a key <c>fooBar</c> and one with a key
             /// <c>foo_bar</c>, both referring to the same field.
             /// </value>
-            internal IDictionary<string, FieldDescriptor> ByJsonName()
-            {
-                return messageDescriptor.jsonFieldMap;
-            }
+            internal IDictionary<string, FieldDescriptor> ByJsonName() { return messageDescriptor.jsonFieldMap; }
 
             /// <summary>
             /// Retrieves the descriptor for the field with the given number.

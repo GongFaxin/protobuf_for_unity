@@ -39,14 +39,18 @@ namespace Google.Protobuf.Reflection
     /// </summary>
     public sealed class TypeRegistry
     {
+
+        static TypeRegistry _empty;
         /// <summary>
         /// An empty type registry, containing no types.
         /// </summary>
-        //public static TypeRegistry Empty { get; } = new TypeRegistry(new Dictionary<string, MessageDescriptor>());
-        public static readonly TypeRegistry Empty;
-        static TypeRegistry()
+        public static TypeRegistry Empty
         {
-            Empty = new TypeRegistry(new Dictionary<string, MessageDescriptor>());
+            get
+            {
+                if (_empty == null) _empty = new TypeRegistry(new Dictionary<string, MessageDescriptor>());
+                return _empty;
+            }
         }
 
         private readonly Dictionary<string, MessageDescriptor> fullNameToMessageMap;
@@ -82,7 +86,7 @@ namespace Google.Protobuf.Reflection
         /// <returns>A type registry for the given files.</returns>
         public static TypeRegistry FromFiles(params FileDescriptor[] fileDescriptors)
         {
-            return FromFiles((IEnumerable<FileDescriptor>) fileDescriptors);
+            return FromFiles((IEnumerable<FileDescriptor>)fileDescriptors);
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Google.Protobuf.Reflection
         /// <returns>A type registry for the given files.</returns>
         public static TypeRegistry FromMessages(params MessageDescriptor[] messageDescriptors)
         {
-            return FromMessages((IEnumerable<MessageDescriptor>) messageDescriptors);
+            return FromMessages((IEnumerable<MessageDescriptor>)messageDescriptors);
         }
 
         /// <summary>

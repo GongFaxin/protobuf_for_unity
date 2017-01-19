@@ -48,7 +48,7 @@ namespace Google.Protobuf.Reflection
             SerializedData = descriptorData;
             DescriptorPool = pool;
             Proto = proto;
-            Dependencies = new ReadOnlyCollection<FileDescriptor>((FileDescriptor[]) dependencies.Clone());
+            Dependencies = new ReadOnlyCollection<FileDescriptor>((FileDescriptor[])dependencies.Clone());
 
             PublicDependencies = DeterminePublicDependencies(this, proto, dependencies, allowUnknownDependencies);
 
@@ -184,9 +184,7 @@ namespace Google.Protobuf.Reflection
         string IDescriptor.FullName
         {
             get
-            {
-                return Name;
-            }
+            { return Name; }
         }
 
         /// <value>
@@ -275,17 +273,6 @@ namespace Google.Protobuf.Reflection
                     "Dependencies passed to FileDescriptor.BuildFrom() don't match " +
                     "those listed in the FileDescriptorProto.");
             }
-            // for (int i = 0; i < proto.Dependency.Count; i++)
-            // {
-            //     if (dependencies[i].Name != proto.Dependency[i])
-            //     {
-            //         throw new DescriptorValidationException(
-            //             result,
-            //             "Dependencies passed to FileDescriptor.BuildFrom() don't match " +
-            //             "those listed in the FileDescriptorProto. Expected: " +
-            //             proto.Dependency[i] + " but was: " + dependencies[i].Name);
-            //     }
-            // }
 
             result.CrossLink();
             return result;
@@ -335,7 +322,7 @@ namespace Google.Protobuf.Reflection
             }
             catch (DescriptorValidationException e)
             {
-                throw new ArgumentException("Invalid embedded descriptor for \""+proto.Name+"\".", e);
+                throw new ArgumentException("Invalid embedded descriptor for \"" + proto.Name + "\".", e);
             }
         }
 

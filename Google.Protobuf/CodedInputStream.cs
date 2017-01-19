@@ -30,6 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+// using Google.Protobuf.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,10 +45,6 @@ namespace Google.Protobuf
     /// This class is generally used by generated code to read appropriate
     /// primitives from the stream. It effectively encapsulates the lowest
     /// levels of protocol buffer format.
-    /// </para>
-    /// <para>
-    /// Repeated fields and map fields are not handled by this class; use <see cref="RepeatedField{T}"/>
-    /// and <see cref="MapField{TKey, TValue}"/> to serialize such fields.
     /// </para>
     /// </remarks>
     public sealed class CodedInputStream : IDisposable
@@ -451,7 +448,8 @@ namespace Google.Protobuf
             int endField = WireFormat.GetTagFieldNumber(tag);
             if (startField != endField)
             {
-                throw new InvalidProtocolBufferException("Mismatched end-group tag. Started with field " + startField + "; ended with field " + endField);
+                throw new InvalidProtocolBufferException(
+                    "Mismatched end-group tag. Started with field {startField}; ended with field " + endField);
             }
             recursionDepth--;
         }

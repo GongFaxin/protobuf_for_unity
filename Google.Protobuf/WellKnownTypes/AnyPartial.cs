@@ -87,10 +87,7 @@ namespace Google.Protobuf.WellKnownTypes
         /// </summary>
         /// <param name="message">The message to pack.</param>
         /// <returns>An Any message with the content and type URL of <paramref name="message"/>.</returns>
-        public static Any Pack(IMessage message)
-        {
-            return Pack(message, DefaultPrefix);
-        }
+        public static Any Pack(IMessage message) { return Pack(message, DefaultPrefix); }
 
         /// <summary>
         /// Packs the specified message into an Any message using the specified type URL prefix.

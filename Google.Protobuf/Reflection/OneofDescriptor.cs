@@ -32,6 +32,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+// using Google.Protobuf.Compatibility;
 
 namespace Google.Protobuf.Reflection
 {
@@ -112,7 +113,7 @@ namespace Google.Protobuf.Reflection
             var clearMethod = containingType.ClrType.GetMethod("Clear" + clrName);
             if (clearMethod == null)
             {
-                throw new DescriptorValidationException(this, "Method Clear" + clrName + " not found in " + containingType.ClrType);
+                throw new DescriptorValidationException(this, "Method Clear " + clrName + " not found in " + containingType.ClrType);
             }
 
             return new OneofAccessor(caseProperty, clearMethod, this);

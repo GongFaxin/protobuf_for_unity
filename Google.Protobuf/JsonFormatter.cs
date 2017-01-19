@@ -65,21 +65,16 @@ namespace Google.Protobuf
         private const string NameValueSeparator = ": ";
         private const string PropertySeparator = ", ";
 
+        static JsonFormatter _default;
         /// <summary>
         /// Returns a formatter using the default settings.
         /// </summary>
-        //public static JsonFormatter Default { get; } = new JsonFormatter(Settings.Default);
-        public static readonly JsonFormatter Default;// { get; } = new JsonFormatter(Settings.Default);
-        static JsonFormatter()
+        public static JsonFormatter Default
         {
-            Default = new JsonFormatter(Settings.Default);
-
-            for (int i = 0; i < CommonRepresentations.Length; i++)
+            get
             {
-                if (CommonRepresentations[i] == "")
-                {
-                    CommonRepresentations[i] = ((char)i).ToString();
-                }
+                if (_default == null) _default = new JsonFormatter(Settings.Default);
+                return _default;
             }
         }
 
@@ -125,15 +120,23 @@ namespace Google.Protobuf
           "\\u009c", "\\u009d", "\\u009e", "\\u009f"
         };
 
+        static JsonFormatter()
+        {
+            for (int i = 0; i < CommonRepresentations.Length; i++)
+            {
+                if (CommonRepresentations[i] == "")
+                {
+                    CommonRepresentations[i] = ((char)i).ToString();
+                }
+            }
+        }
 
         private readonly Settings settings;
 
         private bool DiagnosticOnly
         {
             get
-            {
-                return ReferenceEquals(this, diagnosticFormatter);
-            }
+            { return ReferenceEquals(this, diagnosticFormatter); }
         }
 
         /// <summary>
@@ -257,88 +260,25 @@ namespace Google.Protobuf
             return !first;
         }
 
-        /// <summary>
-        /// Camel-case converter with added strictness for field mask formatting.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">The field mask is invalid for JSON representation</exception>
-        private static string ToCamelCaseForFieldMask(string input)
+        // Converted from java/core/src/main/java/com/google/protobuf/Descriptors.java
+        internal static string ToJsonName(string name)
         {
-            for (int i = 0; i < input.Length; i++)
+            StringBuilder result = new StringBuilder(name.Length);
+            bool isNextUpperCase = false;
+            foreach (char ch in name)
             {
-                char c = input[i];
-                if (c >= 'A' && c <= 'Z')
+                if (ch == '_')
                 {
-                    throw new InvalidOperationException("Invalid field mask to be converted to JSON: " + input);
+                    isNextUpperCase = true;
                 }
-                if (c == '_' && i < input.Length - 1)
+                else if (isNextUpperCase)
                 {
-                    char next = input[i + 1];
-                    if (next < 'a' || next > 'z')
-                    {
-                        throw new InvalidOperationException("Invalid field mask to be converted to JSON: " + input);
-                    }
-                }
-            }
-            return ToCamelCase(input);
-        }
-
-        // Converted from src/google/protobuf/util/internal/utility.cc ToCamelCase
-        // TODO: Use the new field in FieldDescriptor.
-        internal static string ToCamelCase(string input)
-        {
-            bool capitalizeNext = false;
-            bool wasCap = true;
-            bool isCap = false;
-            bool firstWord = true;
-            StringBuilder result = new StringBuilder(input.Length);
-
-            for (int i = 0; i < input.Length; i++, wasCap = isCap)
-            {
-                isCap = char.IsUpper(input[i]);
-                if (input[i] == '_')
-                {
-                    capitalizeNext = true;
-                    if (result.Length != 0)
-                    {
-                        firstWord = false;
-                    }
-                    continue;
-                }
-                else if (firstWord)
-                {
-                    // Consider when the current character B is capitalized,
-                    // first word ends when:
-                    // 1) following a lowercase:   "...aB..."
-                    // 2) followed by a lowercase: "...ABc..."
-                    if (result.Length != 0 && isCap &&
-                        (!wasCap || (i + 1 < input.Length && char.IsLower(input[i + 1]))))
-                    {
-                        firstWord = false;
-                        result.Append(input[i]);
-                    }
-                    else
-                    {
-                        result.Append(char.ToLowerInvariant(input[i]));
-                        continue;
-                    }
-                }
-                else if (capitalizeNext)
-                {
-                    capitalizeNext = false;
-                    if (char.IsLower(input[i]))
-                    {
-                        result.Append(char.ToUpperInvariant(input[i]));
-                        continue;
-                    }
-                    else
-                    {
-                        result.Append(input[i]);
-                        continue;
-                    }
+                    result.Append(char.ToUpperInvariant(ch));
+                    isNextUpperCase = false;
                 }
                 else
                 {
-                    result.Append(char.ToLowerInvariant(input[i]));
+                    result.Append(ch);
                 }
             }
             return result.ToString();
@@ -830,7 +770,7 @@ namespace Google.Protobuf
             /// <summary>
             /// Default settings, as used by <see cref="JsonFormatter.Default"/>
             /// </summary>
-            public static readonly Settings Default;
+            public readonly static Settings Default;
 
             // Workaround for the Mono compiler complaining about XML comments not being on
             // valid language elements.
@@ -907,20 +847,17 @@ namespace Google.Protobuf
             // TODO: Consider adding functionality to TypeExtensions to avoid this difference.
             private static Dictionary<object, string> GetNameMapping(System.Type enumType)
             {
-                return
-                      enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
-                    .ToDictionary(f => f.GetValue(null),
-                                  f =>
-                                  {
-                                      var v = (f.GetCustomAttributes(typeof(OriginalNameAttribute), false).FirstOrDefault() as OriginalNameAttribute);
-                                      return v == null ? null : v.Name ?? f.Name;
-                                  });
-                //enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
-                //    .ToDictionary(f => f.GetValue(null),
-                //                  f => (f.GetCustomAttributes(typeof(OriginalNameAttribute), false)
-                //                        .FirstOrDefault() as OriginalNameAttribute)
-                //                        // If the attribute hasn't been applied, fall back to the name of the field.
-                //                        ?.Name ?? f.Name);
+
+                return enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
+                       .ToDictionary(f => f.GetValue(null),
+                                     f =>
+                                     {
+                                         var fn = (f.GetCustomAttributes(typeof(OriginalNameAttribute), false).FirstOrDefault() as OriginalNameAttribute);
+                                         // If the attribute hasn't been applied, fall back to the name of the field.
+                                         if (fn == null) return f.Name;
+                                         if (fn.Name == null) return f.Name;
+                                         return fn.Name;
+                                     });
             }
             //#else
             //            private static Dictionary<object, string> GetNameMapping(System.Type enumType) =>

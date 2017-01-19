@@ -569,7 +569,6 @@ namespace Google.Protobuf.Collections
             }
         }
 
-
         object ICollection.SyncRoot
         {
             get

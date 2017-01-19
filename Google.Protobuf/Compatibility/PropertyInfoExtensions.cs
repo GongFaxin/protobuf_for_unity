@@ -47,11 +47,11 @@ namespace Google.Protobuf.Compatibility
         /// </summary>
         internal static MethodInfo GetGetMethod(this PropertyInfo target)
         {
-//#if DOTNET35
+            //#if DOTNET35
             var method = target.GetGetMethod();
-//#else
-            //var method = target.GetMethod;
-//#endif
+            //#else
+            //            var method = target.GetMethod; 
+            //#endif
             return method != null && method.IsPublic ? method : null;
         }
 
@@ -61,11 +61,11 @@ namespace Google.Protobuf.Compatibility
         /// </summary>
         internal static MethodInfo GetSetMethod(this PropertyInfo target)
         {
-//#if DOTNET35
+            //#if DOTNET35
             var method = target.GetSetMethod();
-//#else
-  //          var method = target.SetMethod;
-//#endif
+            //#else
+            //            var method = target.SetMethod;
+            //#endif
             return method != null && method.IsPublic ? method : null;
         }
     }

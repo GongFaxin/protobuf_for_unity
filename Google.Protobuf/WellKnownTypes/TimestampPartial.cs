@@ -47,10 +47,7 @@ namespace Google.Protobuf.WellKnownTypes
 
         private static bool IsNormalized(long seconds, int nanoseconds)
         {
-            return nanoseconds >= 0 &&
-            nanoseconds <= MaxNanos &&
-            seconds >= UnixSecondsAtBclMinValue &&
-            seconds <= UnixSecondsAtBclMaxValue;
+            return nanoseconds >= 0 && nanoseconds <= MaxNanos && seconds >= UnixSecondsAtBclMinValue && seconds <= UnixSecondsAtBclMaxValue;
         }
 
         /// <summary>
