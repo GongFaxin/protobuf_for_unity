@@ -65,18 +65,10 @@ namespace Google.Protobuf
         private const string NameValueSeparator = ": ";
         private const string PropertySeparator = ", ";
 
-        static JsonFormatter _default;
         /// <summary>
         /// Returns a formatter using the default settings.
         /// </summary>
-        public static JsonFormatter Default
-        {
-            get
-            {
-                if (_default == null) _default = new JsonFormatter(Settings.Default);
-                return _default;
-            }
-        }
+        public static readonly JsonFormatter Default = new JsonFormatter(Settings.Default);
 
         // A JSON formatter which *only* exists 
         private static readonly JsonFormatter diagnosticFormatter = new JsonFormatter(Settings.Default);
@@ -136,7 +128,9 @@ namespace Google.Protobuf
         private bool DiagnosticOnly
         {
             get
-            { return ReferenceEquals(this, diagnosticFormatter); }
+            {
+                return ReferenceEquals(this, diagnosticFormatter);
+            }
         }
 
         /// <summary>
@@ -770,7 +764,7 @@ namespace Google.Protobuf
             /// <summary>
             /// Default settings, as used by <see cref="JsonFormatter.Default"/>
             /// </summary>
-            public readonly static Settings Default;
+            public static readonly Settings Default;
 
             // Workaround for the Mono compiler complaining about XML comments not being on
             // valid language elements.
@@ -843,32 +837,17 @@ namespace Google.Protobuf
                 return originalName;
             }
 
-            //#if DOTNET35
             // TODO: Consider adding functionality to TypeExtensions to avoid this difference.
             private static Dictionary<object, string> GetNameMapping(System.Type enumType)
             {
-
-                return enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)
-                       .ToDictionary(f => f.GetValue(null),
-                                     f =>
-                                     {
-                                         var fn = (f.GetCustomAttributes(typeof(OriginalNameAttribute), false).FirstOrDefault() as OriginalNameAttribute);
-                                         // If the attribute hasn't been applied, fall back to the name of the field.
-                                         if (fn == null) return f.Name;
-                                         if (fn.Name == null) return f.Name;
-                                         return fn.Name;
-                                     });
+                return enumType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static).ToDictionary(f => f.GetValue(null),
+                                  f =>
+                                  {
+                                      var p = f.GetCustomAttributes(typeof(OriginalNameAttribute), false).FirstOrDefault() as OriginalNameAttribute;
+                                      if (p != null && p.Name != null) return p.Name;
+                                      return f.Name;
+                                  });
             }
-            //#else
-            //            private static Dictionary<object, string> GetNameMapping(System.Type enumType) =>
-            //                enumType.GetTypeInfo().DeclaredFields
-            //                    .Where(f => f.IsStatic)
-            //                    .ToDictionary(f => f.GetValue(null),
-            //                                  f => f.GetCustomAttributes<OriginalNameAttribute>()
-            //                                        .FirstOrDefault()
-            //                                        // If the attribute hasn't been applied, fall back to the name of the field.
-            //                                        ?.Name ?? f.Name);
-            //#endif
         }
     }
 }

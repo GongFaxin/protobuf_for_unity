@@ -35,6 +35,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+// using System.Text;
 
 namespace Google.Protobuf.WellKnownTypes
 {
@@ -58,12 +59,8 @@ namespace Google.Protobuf.WellKnownTypes
             if (firstInvalid == null)
             {
                 var writer = new StringWriter();
-                //#if DOTNET35
                 var query = paths.Select<string, string>(JsonFormatter.ToJsonName);
                 JsonFormatter.WriteString(writer, string.Join(",", query.ToArray()));
-                //#else
-                //                JsonFormatter.WriteString(writer, string.Join(",", paths.Select(JsonFormatter.ToJsonName)));
-                //#endif 
                 return writer.ToString();
             }
             else

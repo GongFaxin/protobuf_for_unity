@@ -47,9 +47,12 @@ namespace Google.Protobuf.WellKnownTypes
 
         private static bool IsNormalized(long seconds, int nanoseconds)
         {
-            return nanoseconds >= 0 && nanoseconds <= MaxNanos && seconds >= UnixSecondsAtBclMinValue && seconds <= UnixSecondsAtBclMaxValue;
+            return
+            nanoseconds >= 0 &&
+            nanoseconds <= MaxNanos &&
+            seconds >= UnixSecondsAtBclMinValue &&
+            seconds <= UnixSecondsAtBclMaxValue;
         }
-
         /// <summary>
         /// Returns the difference between one <see cref="Timestamp"/> and another, as a <see cref="Duration"/>.
         /// </summary>
@@ -150,7 +153,7 @@ namespace Google.Protobuf.WellKnownTypes
             }
             // Do the arithmetic using DateTime.Ticks, which is always non-negative, making things simpler.
             long secondsSinceBclEpoch = dateTime.Ticks / TimeSpan.TicksPerSecond;
-            int nanoseconds = (int)(dateTime.Ticks % TimeSpan.TicksPerSecond) * Duration.NanosecondsPerTick;
+            int nanoseconds = (int)  (dateTime.Ticks % TimeSpan.TicksPerSecond) * Duration.NanosecondsPerTick;
             return new Timestamp { Seconds = secondsSinceBclEpoch - BclSecondsAtUnixEpoch, Nanos = nanoseconds };
         }
 

@@ -42,7 +42,8 @@ namespace Google.Protobuf.WellKnownTypes
         // all the Any-specific code is in the same place.
         private static string GetTypeUrl(MessageDescriptor descriptor, string prefix)
         {
-            return prefix.EndsWith("/") ? prefix + descriptor.FullName : prefix + "/" + descriptor.FullName;
+            return
+            prefix.EndsWith("/") ? prefix + descriptor.FullName : prefix + "/" + descriptor.FullName;
         }
 
         /// <summary>
@@ -75,8 +76,7 @@ namespace Google.Protobuf.WellKnownTypes
             T target = new T();
             if (GetTypeName(TypeUrl) != target.Descriptor.FullName)
             {
-                throw new InvalidProtocolBufferException(
-                    "Full type name for " + target.Descriptor.Name + " is " + target.Descriptor.FullName + "; Any message's type url is " + TypeUrl);
+                throw new InvalidProtocolBufferException("Full type name for " + target.Descriptor.Name + " is " + target.Descriptor.FullName + "; Any message's type url is " + TypeUrl);
             }
             target.MergeFrom(Value);
             return target;
@@ -87,7 +87,10 @@ namespace Google.Protobuf.WellKnownTypes
         /// </summary>
         /// <param name="message">The message to pack.</param>
         /// <returns>An Any message with the content and type URL of <paramref name="message"/>.</returns>
-        public static Any Pack(IMessage message) { return Pack(message, DefaultPrefix); }
+        public static Any Pack(IMessage message)
+        {
+            return Pack(message, DefaultPrefix);
+        }
 
         /// <summary>
         /// Packs the specified message into an Any message using the specified type URL prefix.

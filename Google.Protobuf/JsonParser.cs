@@ -975,7 +975,7 @@ namespace Google.Protobuf
             /// Default settings, as used by <see cref="JsonParser.Default"/>. This has the same default
             /// recursion limit as <see cref="CodedInputStream"/>, and an empty type registry.
             /// </summary>
-            public readonly static Settings Default;
+            public static readonly Settings Default;
 
             // Workaround for the Mono compiler complaining about XML comments not being on
             // valid language elements.

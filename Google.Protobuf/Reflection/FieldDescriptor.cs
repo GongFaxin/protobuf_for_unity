@@ -84,8 +84,7 @@ namespace Google.Protobuf.Reflection
             {
                 if (proto.OneofIndex < 0 || proto.OneofIndex >= parent.Proto.OneofDecl.Count)
                 {
-                    throw new DescriptorValidationException(this,
-                        "FieldDescriptorProto.oneof_index is out of range for type " + parent.Name);
+                    throw new DescriptorValidationException(this, "FieldDescriptorProto.oneof_index is out of range for type " + parent.Name);
                 }
                 ContainingOneof = parent.Oneofs[proto.OneofIndex];
             }
@@ -213,12 +212,13 @@ namespace Google.Protobuf.Reflection
         /// </summary>
         public bool IsPacked
         {
-            // Note the || rather than && here - we're effectively defaulting to packed, because that *is*
-            // the default in proto3, which is all we support. We may give the wrong result for the protos
-            // within descriptor.proto, but that's okay, as they're never exposed and we don't use IsPacked
-            // within the runtime.
             get
             {
+
+                // Note the || rather than && here - we're effectively defaulting to packed, because that *is*
+                // the default in proto3, which is all we support. We may give the wrong result for the protos
+                // within descriptor.proto, but that's okay, as they're never exposed and we don't use IsPacked
+                // within the runtime.
                 return Proto.Options == null || Proto.Options.Packed;
             }
         }

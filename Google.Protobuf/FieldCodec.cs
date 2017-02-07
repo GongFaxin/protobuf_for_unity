@@ -367,6 +367,7 @@ namespace Google.Protobuf
         {
             return TypeSupportsPacking && WireFormat.GetTagWireType(tag) == WireFormat.WireType.LengthDelimited;
         }
+
         internal readonly bool PackedRepeatedField;
 
         /// <summary>
@@ -480,5 +481,6 @@ namespace Google.Protobuf
         {
             return EqualityComparer<T>.Default.Equals(value, DefaultValue);
         }
+
     }
 }

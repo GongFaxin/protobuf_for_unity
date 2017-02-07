@@ -184,7 +184,9 @@ namespace Google.Protobuf.Reflection
         string IDescriptor.FullName
         {
             get
-            { return Name; }
+            {
+                return Name;
+            }
         }
 
         /// <value>
