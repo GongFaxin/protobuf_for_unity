@@ -353,5 +353,17 @@ namespace Google.Protobuf.Reflection
         /// The file descriptor for <c>descriptor.proto</c>.
         /// </value>
         public static FileDescriptor DescriptorProtoFileDescriptor { get { return DescriptorReflection.Descriptor; } }
+
+        /// <summary>
+        /// The (possibly empty) set of custom options for this file.
+        /// </summary>
+        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
+        }
     }
 }

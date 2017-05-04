@@ -30,7 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-// using Google.Protobuf.Compatibility;
+using Google.Protobuf.Compatibility;
 using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Collections.Generic;
@@ -287,7 +287,7 @@ namespace Google.Protobuf
                 {
                     throw new InvalidOperationException("Invalid type argument requested for wrapper codec: " + typeof(T));
                 }
-                return (FieldCodec<T>)value;
+                return (FieldCodec<T>) value;
             }
 
             internal static T Read<T>(CodedInputStream input, FieldCodec<T> codec)
@@ -321,7 +321,7 @@ namespace Google.Protobuf
                 codec.WriteTagAndValue(output, value);
             }
 
-            internal static int CalculateSize<T>(T value, FieldCodec<T> codec)
+            internal  static int CalculateSize<T>(T value, FieldCodec<T> codec)
             {
                 int fieldLength = codec.CalculateSizeWithTag(value);
                 return CodedOutputStream.ComputeLengthSize(fieldLength) + fieldLength;
@@ -410,7 +410,7 @@ namespace Google.Protobuf
         internal readonly T DefaultValue;
 
         private readonly int tagSize;
-
+        
         internal FieldCodec(
                 Func<CodedInputStream, T> reader,
                 Action<CodedOutputStream, T> writer,
@@ -481,6 +481,5 @@ namespace Google.Protobuf
         {
             return EqualityComparer<T>.Default.Equals(value, DefaultValue);
         }
-
     }
 }

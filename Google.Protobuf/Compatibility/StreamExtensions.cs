@@ -1,6 +1,6 @@
 ﻿#region Copyright notice and license
 // Protocol Buffers - Google's data interchange format
-// Copyright 2008 Google Inc.  All rights reserved.
+// Copyright 2015 Google Inc.  All rights reserved.
 // https://developers.google.com/protocol-buffers/
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,35 +31,34 @@
 #endregion
 
 using System;
+using System.IO;
 
-namespace Google.Protobuf.Reflection
+namespace Google.Protobuf.Compatibility
 {
     /// <summary>
-    /// Specifies the original name (in the .proto file) of a named element,
-    /// such as an enum value.
+    /// Extension methods for <see cref="Stream"/> in order to provide
+    /// backwards compatibility with .NET 3.5
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    public class OriginalNameAttribute : Attribute
+    public static class StreamExtensions
     {
-        /// <summary>
-        /// The name of the element in the .proto file.
-        /// </summary>
-        public string Name { get; set; }
+        // 81920 seems to be the default buffer size used in .NET 4.5.1
+        private const int BUFFER_SIZE = 81920;
 
         /// <summary>
-        /// If the name is preferred in the .proto file.
+        /// Write the contents of the current stream to the destination stream
         /// </summary>
-        public bool PreferredAlias { get; set; }
-
-        /// <summary>
-        /// Constructs a new attribute instance for the given name.
-        /// </summary>
-        /// <param name="name">The name of the element in the .proto file.</param>
-        public OriginalNameAttribute(string name)
+        public static void CopyTo(this Stream source, Stream destination)
         {
-            Name = ProtoPreconditions.CheckNotNull(name, "name");
-            PreferredAlias = true;
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int numBytesRead;
+            while ((numBytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
+                destination.Write(buffer, 0, numBytesRead);
+            }
         }
-	
     }
 }

@@ -46,7 +46,7 @@ namespace Google.Protobuf.Reflection
         /// <summary>
         /// Irrelevant for file descriptors; the CLR type for the message for message descriptors.
         /// </summary>
-        public Type ClrType { get; private set; }
+        public Type ClrType;
 
         /// <summary>
         /// Irrelevant for file descriptors; the parser for message descriptors.

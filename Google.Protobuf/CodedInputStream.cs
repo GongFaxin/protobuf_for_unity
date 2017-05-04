@@ -122,7 +122,7 @@ namespace Google.Protobuf
         /// Creates a new CodedInputStream reading data from the given byte array.
         /// </summary>
         public CodedInputStream(byte[] buffer) : this(null, ProtoPreconditions.CheckNotNull(buffer, "buffer"), 0, buffer.Length)
-        {
+        {            
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Google.Protobuf
         /// </summary>
         public CodedInputStream(byte[] buffer, int offset, int length)
             : this(null, ProtoPreconditions.CheckNotNull(buffer, "buffer"), offset, offset + length)
-        {
+        {            
             if (offset < 0 || offset > buffer.Length)
             {
                 throw new ArgumentOutOfRangeException("offset", "Offset must be within the buffer");
@@ -162,7 +162,7 @@ namespace Google.Protobuf
         {
             this.leaveOpen = leaveOpen;
         }
-
+        
         /// <summary>
         /// Creates a new CodedInputStream reading data from the given
         /// stream and buffer, using the default limits.
@@ -223,7 +223,7 @@ namespace Google.Protobuf
         /// <summary>
         /// Returns the current position in the input stream, or the position in the input buffer
         /// </summary>
-        public long Position
+        public long Position 
         {
             get
             {
@@ -352,7 +352,7 @@ namespace Google.Protobuf
                     if ((tmp = buffer[bufferPos++]) < 128)
                     {
                         result |= tmp << 7;
-                        lastTag = (uint)result;
+                        lastTag = (uint) result;
                     }
                     else
                     {
@@ -461,7 +461,7 @@ namespace Google.Protobuf
         /// </summary>
         public double ReadDouble()
         {
-            return BitConverter.Int64BitsToDouble((long)ReadRawLittleEndian64());
+            return BitConverter.Int64BitsToDouble((long) ReadRawLittleEndian64());
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Google.Protobuf
         /// </summary>
         public long ReadInt64()
         {
-            return (long)ReadRawVarint64();
+            return (long) ReadRawVarint64();
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Google.Protobuf
         /// </summary>
         public int ReadInt32()
         {
-            return (int)ReadRawVarint32();
+            return (int) ReadRawVarint32();
         }
 
         /// <summary>
@@ -615,7 +615,7 @@ namespace Google.Protobuf
         public int ReadEnum()
         {
             // Currently just a pass-through, but it's nice to separate it logically from WriteInt32.
-            return (int)ReadRawVarint32();
+            return (int) ReadRawVarint32();
         }
 
         /// <summary>
@@ -623,7 +623,7 @@ namespace Google.Protobuf
         /// </summary>   
         public int ReadSFixed32()
         {
-            return (int)ReadRawLittleEndian32();
+            return (int) ReadRawLittleEndian32();
         }
 
         /// <summary>
@@ -631,7 +631,7 @@ namespace Google.Protobuf
         /// </summary>   
         public long ReadSFixed64()
         {
-            return (long)ReadRawLittleEndian64();
+            return (long) ReadRawLittleEndian64();
         }
 
         /// <summary>
@@ -659,7 +659,7 @@ namespace Google.Protobuf
         /// </remarks>
         public int ReadLength()
         {
-            return (int)ReadRawVarint32();
+            return (int) ReadRawVarint32();
         }
 
         /// <summary>
@@ -690,7 +690,7 @@ namespace Google.Protobuf
             int tmp = ReadRawByte();
             if (tmp < 128)
             {
-                return (uint)tmp;
+                return (uint) tmp;
             }
             int result = tmp & 0x7f;
             if ((tmp = ReadRawByte()) < 128)
@@ -722,7 +722,7 @@ namespace Google.Protobuf
                             {
                                 if (ReadRawByte() < 128)
                                 {
-                                    return (uint)result;
+                                    return (uint) result;
                                 }
                             }
                             throw InvalidProtocolBufferException.MalformedVarint();
@@ -730,7 +730,7 @@ namespace Google.Protobuf
                     }
                 }
             }
-            return (uint)result;
+            return (uint) result;
         }
 
         /// <summary>
@@ -749,7 +749,7 @@ namespace Google.Protobuf
             int tmp = buffer[bufferPos++];
             if (tmp < 128)
             {
-                return (uint)tmp;
+                return (uint) tmp;
             }
             int result = tmp & 0x7f;
             if ((tmp = buffer[bufferPos++]) < 128)
@@ -784,7 +784,7 @@ namespace Google.Protobuf
                             {
                                 if (ReadRawByte() < 128)
                                 {
-                                    return (uint)result;
+                                    return (uint) result;
                                 }
                             }
                             throw InvalidProtocolBufferException.MalformedVarint();
@@ -792,7 +792,7 @@ namespace Google.Protobuf
                     }
                 }
             }
-            return (uint)result;
+            return (uint) result;
         }
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace Google.Protobuf
                 result |= (b & 0x7f) << offset;
                 if ((b & 0x80) == 0)
                 {
-                    return (uint)result;
+                    return (uint) result;
                 }
             }
             // Keep reading up to 64 bits.
@@ -831,7 +831,7 @@ namespace Google.Protobuf
                 }
                 if ((b & 0x80) == 0)
                 {
-                    return (uint)result;
+                    return (uint) result;
                 }
             }
             throw InvalidProtocolBufferException.MalformedVarint();
@@ -847,7 +847,7 @@ namespace Google.Protobuf
             while (shift < 64)
             {
                 byte b = ReadRawByte();
-                result |= (ulong)(b & 0x7F) << shift;
+                result |= (ulong) (b & 0x7F) << shift;
                 if ((b & 0x80) == 0)
                 {
                     return result;
@@ -1222,7 +1222,7 @@ namespace Google.Protobuf
                 // ROK 5/7/2013 Issue #54: should retire all bytes in buffer (bufferSize)
                 // totalBytesRetired += pos;
                 totalBytesRetired += bufferSize;
-
+                
                 bufferPos = 0;
                 bufferSize = 0;
 

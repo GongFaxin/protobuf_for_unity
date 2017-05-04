@@ -251,7 +251,7 @@ namespace Google.Protobuf
                 throw new InvalidProtocolBufferException("Repeated field value was not an array. Token type: " + token.Type);
             }
 
-            IList list = (IList)field.Accessor.GetValue(message);
+            IList list = (IList) field.Accessor.GetValue(message);
             while (true)
             {
                 token = tokenizer.Next();
@@ -284,7 +284,7 @@ namespace Google.Protobuf
             {
                 throw new InvalidProtocolBufferException("Invalid map field: " + field.FullName);
             }
-            IDictionary dictionary = (IDictionary)field.Accessor.GetValue(message);
+            IDictionary dictionary = (IDictionary) field.Accessor.GetValue(message);
 
             while (true)
             {
@@ -610,20 +610,20 @@ namespace Google.Protobuf
                         case FieldType.SInt32:
                         case FieldType.SFixed32:
                             CheckInteger(value);
-                            return (int)value;
+                            return (int) value;
                         case FieldType.UInt32:
                         case FieldType.Fixed32:
                             CheckInteger(value);
-                            return (uint)value;
+                            return (uint) value;
                         case FieldType.Int64:
                         case FieldType.SInt64:
                         case FieldType.SFixed64:
                             CheckInteger(value);
-                            return (long)value;
+                            return (long) value;
                         case FieldType.UInt64:
                         case FieldType.Fixed64:
                             CheckInteger(value);
-                            return (ulong)value;
+                            return (ulong) value;
                         case FieldType.Double:
                             return value;
                         case FieldType.Float:
@@ -643,12 +643,12 @@ namespace Google.Protobuf
                                 }
                                 throw new InvalidProtocolBufferException("Value out of range: " + value);
                             }
-                            return (float)value;
+                            return (float) value;
                         case FieldType.Enum:
                             CheckInteger(value);
                             // Just return it as an int, and let the CLR convert it.
                             // Note that we deliberately don't check that it's a known value.
-                            return (int)value;
+                            return (int) value;
                         default:
                             throw new InvalidProtocolBufferException("Unsupported conversion from JSON number for field type " + field.FieldType);
                     }
@@ -908,13 +908,13 @@ namespace Google.Protobuf
             }
             // TODO: Do we *want* to remove empty entries? Probably okay to treat "" as "no paths", but "foo,,bar"?
             string[] jsonPaths = token.StringValue.Split(FieldMaskPathSeparators, StringSplitOptions.RemoveEmptyEntries);
-            IList messagePaths = (IList)message.Descriptor.Fields[FieldMask.PathsFieldNumber].Accessor.GetValue(message);
+            IList messagePaths = (IList) message.Descriptor.Fields[FieldMask.PathsFieldNumber].Accessor.GetValue(message);
             foreach (var path in jsonPaths)
             {
                 messagePaths.Add(ToSnakeCase(path));
             }
         }
-
+        
         // Ported from src/google/protobuf/util/internal/utility.cc
         private static string ToSnakeCase(string text)
         {
@@ -947,7 +947,7 @@ namespace Google.Protobuf
                         builder.Append('_');
                     }
                     // ascii_tolower, but we already know that c *is* an upper case ASCII character...
-                    builder.Append((char)(c + 'a' - 'A'));
+                    builder.Append((char) (c + 'a' - 'A'));
                     wasNotUnderscore = true;
                     wasNotCap = false;
                 }

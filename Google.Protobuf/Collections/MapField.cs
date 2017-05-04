@@ -30,7 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-// using Google.Protobuf.Compatibility;
+using Google.Protobuf.Compatibility;
 using Google.Protobuf.Reflection;
 using System;
 using System.Collections;
@@ -746,7 +746,7 @@ namespace Google.Protobuf.Collections
                 {
                     throw new ArgumentOutOfRangeException("index");
                 }
-                if (index + Count >= array.Length)
+                if (index + Count > array.Length)
                 {
                     throw new ArgumentException("Not enough space in the array", "array");
                 }

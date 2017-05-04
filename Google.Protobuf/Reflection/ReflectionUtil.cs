@@ -31,7 +31,7 @@
 #endregion
 
 using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -102,6 +102,6 @@ namespace Google.Protobuf.Reflection
             Expression castTarget = Expression.Convert(targetParameter, method.DeclaringType);
             Expression call = Expression.Call(castTarget, method);
             return Expression.Lambda<Action<IMessage>>(call, targetParameter).Compile();
-        }
+        }        
     }
 }

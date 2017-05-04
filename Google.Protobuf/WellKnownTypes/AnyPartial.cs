@@ -42,8 +42,7 @@ namespace Google.Protobuf.WellKnownTypes
         // all the Any-specific code is in the same place.
         private static string GetTypeUrl(MessageDescriptor descriptor, string prefix)
         {
-            return
-            prefix.EndsWith("/") ? prefix + descriptor.FullName : prefix + "/" + descriptor.FullName;
+            return prefix.EndsWith("/") ? prefix + descriptor.FullName : prefix + "/" + descriptor.FullName;
         }
 
         /// <summary>

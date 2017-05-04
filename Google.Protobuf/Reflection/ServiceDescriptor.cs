@@ -78,6 +78,18 @@ namespace Google.Protobuf.Reflection
             return File.DescriptorPool.FindSymbol<MethodDescriptor>(FullName + "." + name);
         }
 
+        /// <summary>
+        /// The (possibly empty) set of custom options for this service.
+        /// </summary>
+        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
+        }
+
         internal void CrossLink()
         {
             foreach (MethodDescriptor method in methods)

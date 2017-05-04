@@ -35,6 +35,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Google.Protobuf.Compatibility;
+
 
 namespace Google.Protobuf
 {
@@ -139,6 +141,26 @@ namespace Google.Protobuf
             // By handling the empty string explicitly, we not only optimize but we fix a
             // problem on CF 2.0. See issue 61 for details.
             return bytes == "" ? Empty : new ByteString(Convert.FromBase64String(bytes));
+        }
+
+        /// <summary>
+        /// Constructs a <see cref="ByteString"/> from data in the given stream, synchronously.
+        /// </summary>
+        /// <remarks>If successful, <paramref name="stream"/> will be read completely, from the position
+        /// at the start of the call.</remarks>
+        /// <param name="stream">The stream to copy into a ByteString.</param>
+        /// <returns>A ByteString with content read from the given stream.</returns>
+        public static ByteString FromStream(Stream stream)
+        {
+            ProtoPreconditions.CheckNotNull(stream, "stream");
+            int capacity = stream.CanSeek ? checked((int) (stream.Length - stream.Position)) : 0;
+            var memoryStream = new MemoryStream(capacity);
+            stream.CopyTo(memoryStream);
+
+            // Avoid an extra copy if we can.
+            byte[] bytes = memoryStream.Length == memoryStream.Capacity ? memoryStream.GetBuffer() : memoryStream.ToArray();
+
+            return AttachBytes(bytes);
         }
 
         /// <summary>

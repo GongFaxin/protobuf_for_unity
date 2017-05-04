@@ -30,7 +30,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-// using Google.Protobuf.Compatibility;
+using Google.Protobuf.Compatibility;
 using System;
 
 namespace Google.Protobuf.Reflection
@@ -292,6 +292,18 @@ namespace Google.Protobuf.Reflection
         }
 
         /// <summary>
+        /// The (possibly empty) set of custom options for this field.
+        /// </summary>
+        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
+        }
+
+        /// <summary>
         /// Look up and cross-link all field types etc.
         /// </summary>
         internal void CrossLink()
@@ -378,7 +390,7 @@ namespace Google.Protobuf.Reflection
             }
             return IsMap ? new MapFieldAccessor(property, this)
                 : IsRepeated ? new RepeatedFieldAccessor(property, this)
-                : (IFieldAccessor)new SingleFieldAccessor(property, this);
+                : (IFieldAccessor) new SingleFieldAccessor(property, this);
         }
     }
 }

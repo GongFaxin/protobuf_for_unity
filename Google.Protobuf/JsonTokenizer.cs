@@ -77,7 +77,7 @@ namespace Google.Protobuf
         /// Returns the depth of the stack, purely in objects (not collections).
         /// Informally, this is the number of remaining unclosed '{' characters we have.
         /// </summary>
-        internal int ObjectDepth { get; private set; }
+        internal int ObjectDepth;
 
         // TODO: Why do we allow a different token to be pushed back? It might be better to always remember the previous
         // token returned, and allow a parameterless Rewind() method (which could only be called once, just like the current PushBack).

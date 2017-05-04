@@ -61,7 +61,7 @@ namespace Google.Protobuf.Reflection
         private readonly IList<FieldDescriptor> fieldsInDeclarationOrder;
         private readonly IList<FieldDescriptor> fieldsInNumberOrder;
         private readonly IDictionary<string, FieldDescriptor> jsonFieldMap;
-
+        
         internal MessageDescriptor(DescriptorProto proto, FileDescriptor file, MessageDescriptor parent, int typeIndex, GeneratedClrTypeInfo generatedCodeInfo)
             : base(file, file.ComputeFullName(parent, proto.Name), typeIndex)
         {
@@ -242,6 +242,17 @@ namespace Google.Protobuf.Reflection
         public T FindDescriptor<T>(string name) where T : class, IDescriptor
         {
             return File.DescriptorPool.FindSymbol<T>(FullName + "." + name);
+        }
+        /// <summary>
+        /// The (possibly empty) set of custom options for this message.
+        /// </summary>
+        //public CustomOptions CustomOptions => Proto.Options?.CustomOptions ?? CustomOptions.Empty;
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
         }
 
         /// <summary>

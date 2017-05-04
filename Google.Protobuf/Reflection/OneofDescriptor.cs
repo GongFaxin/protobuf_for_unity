@@ -32,7 +32,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-// using Google.Protobuf.Compatibility;
+using Google.Protobuf.Compatibility;
 
 namespace Google.Protobuf.Reflection
 {
@@ -89,6 +89,18 @@ namespace Google.Protobuf.Reflection
         /// The accessor used for reflective access.
         /// </value>
         public OneofAccessor Accessor { get { return accessor; } }
+
+        /// <summary>
+        /// The (possibly empty) set of custom options for this oneof.
+        /// </summary>
+        //public CustomOptions CustomOptions => proto.Options?.CustomOptions ?? CustomOptions.Empty;
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return proto.Options == null ? null : proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
+        }
 
         internal void CrossLink()
         {

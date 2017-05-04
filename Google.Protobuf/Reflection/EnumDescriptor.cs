@@ -112,5 +112,16 @@ namespace Google.Protobuf.Reflection
         {
             return File.DescriptorPool.FindSymbol<EnumValueDescriptor>(FullName + "." + name);
         }
+
+        /// <summary>
+        /// The (possibly empty) set of custom options for this enum.
+        /// </summary>
+        public CustomOptions CustomOptions
+        {
+            get
+            {
+                return Proto.Options == null ? null : Proto.Options.CustomOptions ?? CustomOptions.Empty;
+            }
+        }
     }
 }
