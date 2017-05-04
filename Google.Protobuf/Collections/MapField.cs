@@ -715,7 +715,7 @@ namespace Google.Protobuf.Collections
                 {
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 }
-                if (arrayIndex + Count >= array.Length)
+                if (arrayIndex + Count > array.Length)
                 {
                     throw new ArgumentException("Not enough space in the array", "array");
                 }
