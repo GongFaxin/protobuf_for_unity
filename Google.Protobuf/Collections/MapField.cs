@@ -66,7 +66,7 @@ namespace Google.Protobuf.Collections
     /// in future versions.
     /// </para>
     /// </remarks>
-    public sealed class MapField<TKey, TValue> : IDeepCloneable<MapField<TKey, TValue>>, IDictionary<TKey, TValue>, IEquatable<MapField<TKey, TValue>>, IDictionary
+    public sealed class MapField<TKey, TValue> : IDeepCloneable<MapField<TKey, TValue>>, IDictionary<TKey, TValue>, IEquatable<MapField<TKey, TValue>>, IDictionary//, IReadOnlyDictionary<TKey, TValue>
     {
         // TODO: Don't create the map/list until we have an entry. (Assume many maps will be empty.)
         private readonly Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>> map =
@@ -546,6 +546,21 @@ namespace Google.Protobuf.Collections
                 this[(TKey)key] = (TValue)value;
             }
         }
+        // IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys
+        // {
+        //     get
+        //     {
+        //         return Keys;
+        //     }
+        // }
+
+        // IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values
+        // {
+        //     get
+        //     {
+        //         return Values;
+        //     }
+        // }
         #endregion
 
         private class DictionaryEnumerator : IDictionaryEnumerator

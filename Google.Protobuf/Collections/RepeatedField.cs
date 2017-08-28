@@ -46,7 +46,8 @@ namespace Google.Protobuf.Collections
     /// supported by Protocol Buffers but nor does it guarantee that all operations will work in such cases.
     /// </remarks>
     /// <typeparam name="T">The element type of the repeated field.</typeparam>
-    public sealed class RepeatedField<T> : IList<T>, IList, IDeepCloneable<RepeatedField<T>>, IEquatable<RepeatedField<T>>
+    public sealed class RepeatedField<T> : IList<T>, IList, IDeepCloneable<RepeatedField<T>>, IEquatable<RepeatedField<T>>//, IReadOnlyList<T>
+
     {
         private static readonly T[] EmptyArray = new T[0];
         private const int MinArraySize = 8;
@@ -271,7 +272,7 @@ namespace Google.Protobuf.Collections
             if (index == -1)
             {
                 return false;
-            }            
+            }
             Array.Copy(array, index + 1, array, index, count - index - 1);
             count--;
             array[count] = default(T);
@@ -585,7 +586,7 @@ namespace Google.Protobuf.Collections
 
         int IList.Add(object value)
         {
-            Add((T) value);
+            Add((T)value);
             return count - 1;
         }
 
@@ -605,7 +606,7 @@ namespace Google.Protobuf.Collections
 
         void IList.Insert(int index, object value)
         {
-            Insert(index, (T) value);
+            Insert(index, (T)value);
         }
 
         void IList.Remove(object value)
