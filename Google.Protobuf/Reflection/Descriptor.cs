@@ -96,7 +96,7 @@ namespace Google.Protobuf.Reflection
                   "T3B0aW1pemVNb2RlOgVTUEVFRBISCgpnb19wYWNrYWdlGAsgASgJEiIKE2Nj",
                   "X2dlbmVyaWNfc2VydmljZXMYECABKAg6BWZhbHNlEiQKFWphdmFfZ2VuZXJp",
                   "Y19zZXJ2aWNlcxgRIAEoCDoFZmFsc2USIgoTcHlfZ2VuZXJpY19zZXJ2aWNl",
-                  "cxgSIAEoCDoFZmFsc2USIwoUcGhwX2dlbmVyaWNfc2VydmljZXMYEyABKAg6",
+                  "cxgSIAEoCDoFZmFsc2USIwoUcGhwX2dlbmVyaWNfc2VydmljZXMYKiABKAg6",
                   "BWZhbHNlEhkKCmRlcHJlY2F0ZWQYFyABKAg6BWZhbHNlEh8KEGNjX2VuYWJs",
                   "ZV9hcmVuYXMYHyABKAg6BWZhbHNlEhkKEW9iamNfY2xhc3NfcHJlZml4GCQg",
                   "ASgJEhgKEGNzaGFycF9uYW1lc3BhY2UYJSABKAkSFAoMc3dpZnRfcHJlZml4",
@@ -3678,7 +3678,7 @@ namespace Google.Protobuf.Reflection
         }
 
         /// <summary>Field number for the "php_generic_services" field.</summary>
-        public const int PhpGenericServicesFieldNumber = 19;
+        public const int PhpGenericServicesFieldNumber = 42;
         private bool phpGenericServices_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public bool PhpGenericServices
@@ -3941,11 +3941,6 @@ namespace Google.Protobuf.Reflection
                 output.WriteRawTag(144, 1);
                 output.WriteBool(PyGenericServices);
             }
-            if (PhpGenericServices != false)
-            {
-                output.WriteRawTag(152, 1);
-                output.WriteBool(PhpGenericServices);
-            }
             if (JavaGenerateEqualsAndHash != false)
             {
                 output.WriteRawTag(160, 1);
@@ -3990,6 +3985,11 @@ namespace Google.Protobuf.Reflection
             {
                 output.WriteRawTag(202, 2);
                 output.WriteString(PhpNamespace);
+            }
+            if (PhpGenericServices != false)
+            {
+                output.WriteRawTag(208, 2);
+                output.WriteBool(PhpGenericServices);
             }
             uninterpretedOption_.WriteTo(output, _repeated_uninterpretedOption_codec);
         }
@@ -4207,11 +4207,6 @@ namespace Google.Protobuf.Reflection
                             PyGenericServices = input.ReadBool();
                             break;
                         }
-                    case 152:
-                        {
-                            PhpGenericServices = input.ReadBool();
-                            break;
-                        }
                     case 160:
                         {
                             JavaGenerateEqualsAndHash = input.ReadBool();
@@ -4255,6 +4250,11 @@ namespace Google.Protobuf.Reflection
                     case 330:
                         {
                             PhpNamespace = input.ReadString();
+                            break;
+                        }
+                    case 336:
+                        {
+                            PhpGenericServices = input.ReadBool();
                             break;
                         }
                     case 7994:
